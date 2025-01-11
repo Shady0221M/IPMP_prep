@@ -33,4 +33,48 @@ struct ListNode {
       ListNode() : val(0), next(nullptr) {}
       ListNode(int x) : val(x), next(nullptr) {}
       ListNode(int x, ListNode *next) : val(x), next(next) {}
-  }; 
+  };
+class Solution {
+public:
+    ListNode* reverse(ListNode *head){
+        ListNode *prev,*current,*nxt;
+        if(!head) return head;
+        current=head->next;
+        prev=head;
+        while(current){
+            nxt=current->next;
+            current->next=prev;
+            prev=current;
+            current=nxt;
+        }
+        head->next=nullptr;
+        return prev;
+    }
+    void reorderList(ListNode* head) {
+        ListNode *f,*s,*new_head=head,*temp,*rhead;
+        f=head;
+        s=head;
+        while(f && f->next && f->next->next){
+            s=s->next;
+            f=f->next->next;
+        }
+        rhead=s->next;
+        f=reverse(s->next);
+        
+        s=head;
+        temp=new ListNode(-1);
+        while( f ){
+            temp->next=s;
+            s=s->next;
+            temp=temp->next;
+            temp->next=f;
+            f=f->next;
+            temp=temp->next;
+        }
+        if(s!=rhead){
+            temp->next=s;
+            s->next=nullptr;
+        }
+
+    }
+}; 
